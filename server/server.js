@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const connectDB = require('./configs/db');
+const chatRoutes = require('./routes/chatRoute')
 
 // Initialize Express
 const app = express();
@@ -15,6 +16,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/prescription', require('./routes/prescriptionRoutes'));
+
+app.use('/api/chat', chatRoutes);
 
 app.get('/', (req, res) => {
     res.send('server is running');
