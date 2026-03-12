@@ -1,0 +1,17 @@
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  animation: appReveal 1s ease-out;
+}
+
+@keyframes appReveal {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
+}
