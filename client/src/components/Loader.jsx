@@ -27,33 +27,14 @@ const Loader = () => {
   return (
     <div className={`loader-overlay ${fading ? 'fade-out' : ''}`}>
       <div className="loader-content">
-        <div className="loader-visual">
-          {/* Circular ring */}
-          <div className="loader-ring"></div>
-          
-          {/* Heartbeat / ECG line */}
-          <svg className="ecg-svg" viewBox="0 0 100 100">
-            <path 
-              className="ecg-path" 
-              d="M0,50 L20,50 L25,40 L35,60 L40,50 L50,50 L55,20 L65,80 L70,50 L100,50" 
-            />
+        <div className="loader-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
           </svg>
-
-          {/* Central Medical Cross */}
-          <div className="center-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2v20M2 12h20" />
-            </svg>
-          </div>
         </div>
-        
-        <div className="loader-text">
-          <span className="pulse-text">Loading Healthcare AI</span>
-          <div className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+        <div className="loader-brand">Healify</div>
+        <div className="loader-progress-track">
+          <div className="loader-progress-bar"></div>
         </div>
       </div>
     </div>

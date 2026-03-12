@@ -5,6 +5,7 @@ const connectDB = require('./configs/db');
 const prescriptionRoutes = require('./routes/prescriptionRoutes');
 const symptomRoutes = require('./routes/symptomRoute');
 const chatRoutes = require('./routes/chatRoute');
+const voiceRoutes = require('./routes/voiceRoute');
 const medicineRoutes = require('./routes/medicineRoute');
 
 // Initialize Express
@@ -20,6 +21,7 @@ app.use(express.json());
 // Routes
 app.use('/api/prescription', prescriptionRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/voice', voiceRoutes);
 app.use('/api/symptom-analysing', symptomRoutes);
 app.use('/api/medicines', medicineRoutes);
 

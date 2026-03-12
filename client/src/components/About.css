@@ -27,17 +27,17 @@
 }
 
 .about-badge {
-  color: #4db6ac;
+  color: #2563eb;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-size: 0.9rem;
   display: inline-block;
   margin-bottom: 15px;
-  background: rgba(77, 182, 172, 0.1);
+  background: rgba(37, 99, 235, 0.1);
   padding: 6px 16px;
   border-radius: 100px;
-  border: 1px solid rgba(77, 182, 172, 0.2);
+  border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .about-title {
@@ -48,7 +48,7 @@
 }
 
 .text-gradient {
-  background: linear-gradient(90deg, #4db6ac, #b2dfdb);
+  background: linear-gradient(90deg, #2563eb, #93c5fd);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -100,7 +100,6 @@
 }
 
 .about-card:hover {
-  transform: translateY(-20px) scale(1.05) rotateX(4deg) rotateY(4deg) !important;
   box-shadow: 0 40px 80px rgba(13, 71, 161, 0.2);
   z-index: 10;
   animation-play-state: paused;
@@ -126,8 +125,7 @@
 
 .about-card:hover .card-inner {
   background: #fdfdfd;
-  transform: translateY(-10px);
-  border-color: rgba(77, 182, 172, 0.2);
+  border-color: rgba(37, 99, 235, 0.2);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
@@ -153,7 +151,6 @@
 .about-card:hover .card-icon-wrapper {
   background: #0d47a1;
   color: #ffffff;
-  transform: scale(1.2) translateY(-10px) rotate(-10deg);
   box-shadow: 0 10px 25px rgba(13, 71, 161, 0.3);
 }
 
@@ -183,7 +180,7 @@
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  color: #4db6ac;
+  color: #2563eb;
   font-size: 0.95rem;
   transition: all 0.3s ease;
 }
@@ -194,9 +191,7 @@
   transition: transform 0.3s ease;
 }
 
-.about-card:hover .arrow-icon {
-  transform: translateX(5px);
-}
+
 
 /* Hover Glow Effect */
 .card-glow {
@@ -205,7 +200,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(600px circle at var(--x) var(--y), rgba(77, 182, 172, 0.15), transparent 40%);
+  background: radial-gradient(600px circle at var(--x) var(--y), rgba(37, 99, 235, 0.15), transparent 40%);
   opacity: 0;
   z-index: 1;
   transition: opacity 0.5s ease;

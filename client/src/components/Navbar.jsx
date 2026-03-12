@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -21,26 +22,25 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''} ${mobileMenuOpen ? 'mobile-open' : ''}`}>
       <div className="navbar-container">
-        <div className="navbar-logo">
+        <Link to="/" className="navbar-logo">
           <div className="logo-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
             </svg>
           </div>
           <span className="logo-text">Healify</span>
-        </div>
+        </Link>
 
         <ul className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>
           <li><a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-          <li><a href="#services" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
+          <li><a href="#features" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
           <li><a href="#about" onClick={() => setMobileMenuOpen(false)}>About</a></li>
-          <li><a href="#doctors" onClick={() => setMobileMenuOpen(false)}>Doctors</a></li>
-          <li><a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
+          <li><a href="#footer" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
         </ul>
 
         <div className="nav-actions">
-          <button className="btn-login">Login</button>
-          <button className="btn-get-started">Book Appointment</button>
+          <Link to="/login" className="btn-login">Login</Link>
+          <Link to="/signup" className="btn-get-started">Sign Up now</Link>
         </div>
 
         <div className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>

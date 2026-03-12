@@ -1,21 +1,23 @@
-import Loader from './components/Loader'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
-import Services from './components/Services'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import Auth from './components/Auth'
+import Dashboard from './components/Dashboard'
+import SymptomAnalyzer from './components/SymptomAnalyzer'
 import './App.css'
 
 function App() {
   return (
-    <div className="app-container">
-      <Loader />
-      <Navbar />
-      <Hero />
-      <About />
-      <Services />
-      <Footer />
-    </div>
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Auth initialMode="login" />} />
+          <Route path="/signup" element={<Auth initialMode="signup" />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/symptom-analyzer" element={<SymptomAnalyzer />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
