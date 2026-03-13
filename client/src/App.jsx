@@ -3,6 +3,7 @@ import Home from './components/Home'
 import Auth from './components/Auth'
 import Dashboard from './components/Dashboard'
 import SymptomAnalyzer from './components/SymptomAnalyzer'
+import MedicalChat from './components/MedicalChat'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Route path="/signup" element={<Auth initialMode="signup" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/symptom-analyzer" element={<SymptomAnalyzer />} />
+          <Route path="/medical-chat" element={<MedicalChat />} />
         </Routes>
       </div>
     </Router>
