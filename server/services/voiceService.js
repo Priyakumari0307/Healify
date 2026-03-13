@@ -13,7 +13,7 @@ const speechToText = async (audioFilePath) => {
     try {
         const formData = new FormData();
         formData.append('file', fs.createReadStream(audioFilePath));
-        formData.append('model', 'saarika:v2.5'); // Updated model from snippet
+        formData.append('model', 'saaras:v3');
 
         const response = await axios.post('https://api.sarvam.ai/speech-to-text', formData, {
             headers: {
@@ -37,13 +37,31 @@ const speechToText = async (audioFilePath) => {
  */
 const textToSpeech = async (text) => {
     try {
-        // Ensure text is within character limit for REST API
-        const trimmedText = text.length > 2500 ? text.substring(0, 2497) + "..." : text;
+        // Clean markdown and formatting so the AI voice pronounces it smoothly
+        let cleanText = text.replace(/#+\s?/g, '')
+                            .replace(/\*/g, '')
+                            .replace(/>/g, '')
+                            .replace(/_/g, '')
+                            .replace(/\n\s*\n/g, '. ')
+                            .replace(/\n/g, ' ')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+
+        // Ensure text is within the 500 character limit for Sarvam API 'inputs' array
+        let trimmedText = cleanText;
+        if (cleanText.length > 450) {
+            trimmedText = cleanText.substring(0, 450);
+            const lastPeriod = trimmedText.lastIndexOf('.');
+            if (lastPeriod > 0) {
+                trimmedText = trimmedText.substring(0, lastPeriod + 1);
+            }
+            trimmedText += " Please look at your screen for the full detailed report.";
+        }
 
         const response = await axios.post('https://api.sarvam.ai/text-to-speech', {
-            text: trimmedText,
-            target_language_code: 'hi-IN', // Snippet suggests hi-IN handles English well too
-            speaker: 'Ritu',
+            inputs: [trimmedText],
+            target_language_code: 'hi-IN',
+            speaker: 'ritu',
             model: 'bulbul:v3',
             pace: 1.0,
             enable_preprocessing: true,

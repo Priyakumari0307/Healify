@@ -1,0 +1,227 @@
+.medicine-prices-container {
+    min-height: 100vh;
+    background: #f8fafc;
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+}
+
+.prices-header {
+    background: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.header-content h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.back-btn {
+    background: #f1f5f9;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.prices-main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.search-section {
+    margin-bottom: 3rem;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s;
+}
+
+.search-bar:focus-within {
+    border-color: #3b82f6;
+}
+
+.search-icon {
+    color: #94a3b8;
+    margin-right: 1rem;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.75rem 0;
+    font-size: 1rem;
+    color: #1e293b;
+}
+
+.search-bar button {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-bar button:hover {
+    background: #1d4ed8;
+}
+
+.search-bar button:disabled {
+    background: #94a3b8;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.price-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.price-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.med-info {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.med-icon {
+    color: #3b82f6;
+    background: #eff6ff;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.med-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    max-width: 150px;
+}
+
+.price-tag {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #059669;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pharmacy-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+.buy-btn {
+    padding: 0.5rem 1rem;
+    background: #f1f5f9;
+    color: #2563eb;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.buy-btn:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.loading-state, .empty-state {
+    text-align: center;
+    padding: 4rem 0;
+    color: #64748b;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    color: #2563eb;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.faded-icon {
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.cheapest-deal { border: 2px solid #10b981; background: #f0fdf4; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15); } .price-container { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; } .best-deal-badge { background: #10b981; color: white; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.05em; } .cheapest-note { margin-top: 2rem; padding: 1rem 1.5rem; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; color: #1e40af; display: flex; align-items: center; gap: 0.75rem; animation: fadeIn 0.4s ease; } .cheapest-note span:first-child { font-size: 1.25rem; } .cheapest-note p { margin: 0; font-size: 0.95rem; } .highlight-store { font-weight: 700; color: #1d4ed8; background: #dbeafe; padding: 0.2rem 0.5rem; border-radius: 4px; }
+.store-brand-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; height: 40px; } .store-logo-img { height: 35px; max-width: 140px; object-fit: contain; }

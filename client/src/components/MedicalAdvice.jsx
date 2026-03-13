@@ -1,21 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { PlusIcon, SendHorizontal, Trash2, MessageSquare, Menu } from 'lucide-react';
-import './MedicalChat.css';
+import { PlusIcon, SendHorizontal, Trash2, MessageSquare, Menu, Mic, MicOff } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import './MedicalAdvice.css';
 
-const MedicalChat = () => {
+const MedicalAdvice = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [sessions, setSessions] = useState([]);
     const [currentSessionId, setCurrentSessionId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isRecording, setIsRecording] = useState(false);
+    const mediaRecorderRef = useRef(null);
+    const audioChunksRef = useRef([]);
     const messagesEndRef = useRef(null);
+    const location = useLocation();
 
     const API_BASE = 'http://localhost:5000/api/chat';
+    const VOICE_API = 'http://localhost:5000/api/voice/voice-message';
 
     useEffect(() => {
         fetchSessions();
+        
+        // Handle initial context if navigating from Symptom Analyzer
+        if (location.state && location.state.initialContext && !currentSessionId) {
+            handleInitialContext(location.state.initialContext);
+        }
     }, []);
 
     useEffect(() => {
@@ -24,6 +36,85 @@ const MedicalChat = () => {
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const handleInitialContext = async (context) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.post(`${API_BASE}/message`, {
+                initialContext: context
+            });
+
+            if (res.data.success) {
+                setMessages(res.data.messages);
+                setCurrentSessionId(res.data.sessionId);
+                fetchSessions();
+            }
+        } catch (err) {
+            console.error("Initial Context Error:", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorderRef.current = new MediaRecorder(stream);
+            audioChunksRef.current = [];
+
+            mediaRecorderRef.current.ondataavailable = (event) => {
+                audioChunksRef.current.push(event.data);
+            };
+
+            mediaRecorderRef.current.onstop = handleStopRecording;
+            mediaRecorderRef.current.start();
+            setIsRecording(true);
+        } catch (err) {
+            console.error("Error accessing microphone:", err);
+            alert("Could not access microphone.");
+        }
+    };
+
+    const stopRecording = () => {
+        if (mediaRecorderRef.current && isRecording) {
+            mediaRecorderRef.current.stop();
+            setIsRecording(false);
+            mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
+        }
+    };
+
+    const handleStopRecording = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
+        const formData = new FormData();
+        formData.append('audio', audioBlob, 'consultation.wav');
+        if (currentSessionId) {
+            formData.append('sessionId', currentSessionId);
+        }
+
+        setIsLoading(true);
+        try {
+            const res = await axios.post(VOICE_API, formData);
+            if (res.data.success) {
+                setMessages(res.data.messages || [
+                    ...messages,
+                    { role: 'user', content: res.data.user_text },
+                    { role: 'assistant', content: res.data.ai_text }
+                ]);
+                setCurrentSessionId(res.data.sessionId);
+                fetchSessions();
+
+                // Play back AI response if audio exists
+                if (res.data.audio) {
+                    const audio = new Audio(`data:audio/wav;base64,${res.data.audio}`);
+                    audio.play();
+                }
+            }
+        } catch (err) {
+            console.error("Voice Send Error:", err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const fetchSessions = async () => {
@@ -113,7 +204,7 @@ const MedicalChat = () => {
                             onClick={() => loadSession(session._id)}
                         >
                             <MessageSquare size={16} className="item-icon" />
-                            <span>{session.title}</span>
+                            <span>{session.title || 'Untitled Session'}</span>
                             <button className="delete-session" onClick={(e) => deleteSession(e, session._id)}>
                                 <Trash2 size={14} />
                             </button>
@@ -149,7 +240,13 @@ const MedicalChat = () => {
                     ) : (
                         messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.role}`}>
-                                {msg.content}
+                                {msg.role === 'assistant' ? (
+                                    <div className="markdown-content">
+                                        <ReactMarkdown>{msg.content}</ReactMarkdown>
+                                    </div>
+                                ) : (
+                                    msg.content
+                                )}
                             </div>
                         ))
                     )}
@@ -168,10 +265,17 @@ const MedicalChat = () => {
 
                 <div className="chat-input-area">
                     <form className="input-wrapper" onSubmit={handleSendMessage}>
+                        <button 
+                            type="button" 
+                            className={`voice-btn ${isRecording ? 'recording' : ''}`}
+                            onClick={isRecording ? stopRecording : startRecording}
+                        >
+                            {isRecording ? <MicOff size={20} /> : <Mic size={20} />}
+                        </button>
                         <input 
                             type="text" 
                             className="chat-input" 
-                            placeholder="Describe your symptoms..." 
+                            placeholder="Describe your symptoms or record voice..." 
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                         />
@@ -188,4 +292,4 @@ const MedicalChat = () => {
     );
 };
 
-export default MedicalChat;
+export default MedicalAdvice;

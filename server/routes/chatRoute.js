@@ -7,7 +7,7 @@ const ChatSession = require('../models/Chat');
 // @desc    Send a message and get AI response, saving to a session
 router.post('/message', async (req, res) => {
     try {
-        const { message, sessionId } = req.body;
+        const { message, sessionId, initialContext } = req.body;
         
         let chatSession;
         if (sessionId) {
@@ -16,9 +16,17 @@ router.post('/message', async (req, res) => {
 
         if (!chatSession) {
             chatSession = new ChatSession({
-                title: message.substring(0, 30) + (message.length > 30 ? '...' : ''),
+                title: message ? (message.substring(0, 30) + (message.length > 30 ? '...' : '')) : 'New Consultation',
                 messages: []
             });
+            
+            // If there's initial context (like symptom analyzer results), add it as a system-like message
+            if (initialContext) {
+                chatSession.messages.push({ 
+                    role: 'assistant', 
+                    content: `I have reviewed your previous symptom analysis: ${initialContext}. How can I further assist you today?` 
+                });
+            }
         }
 
         // Format history for the AI service
@@ -27,13 +35,18 @@ router.post('/message', async (req, res) => {
             content: msg.content
         }));
 
-        const aiResponse = await getAIResponse(message, history);
+        let aiResponse = '';
+        if (message) {
+            aiResponse = await getAIResponse(message, history);
+            // Update chat session with user message and AI response
+            chatSession.messages.push({ role: 'user', content: message });
+            chatSession.messages.push({ role: 'assistant', content: aiResponse });
+        } else if (initialContext && chatSession.messages.length > 0) {
+            // If we just added the initial context assistant message
+            aiResponse = chatSession.messages[chatSession.messages.length - 1].content;
+        }
 
-        // Update chat session
-        chatSession.messages.push({ role: 'user', content: message });
-        chatSession.messages.push({ role: 'assistant', content: aiResponse });
         chatSession.updatedAt = Date.now();
-        
         await chatSession.save();
 
         res.json({

@@ -166,7 +166,7 @@ const SymptomAnalyzer = () => {
                       <span>Book an Appointment</span>
                       <ChevronRight size={16} />
                     </button>
-                    <button className="step-btn" onClick={() => navigate('/dashboard')}>
+                    <button className="step-btn" onClick={() => navigate('/medical-advice', { state: { initialContext: result.analysis } })}>
                       <span>Get AI Medical Advice</span>
                       <ChevronRight size={16} />
                     </button>

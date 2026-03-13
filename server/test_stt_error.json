@@ -1,0 +1,9 @@
+{
+  "error": {
+    "error": {
+      "message": "Failed to read the file, please check the audio format.",
+      "code": "invalid_request_error",
+      "request_id": "20260313_b399f7d4-072c-4289-8fdf-e9145b569e4a"
+    }
+  }
+}
