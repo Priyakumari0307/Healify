@@ -30,22 +30,22 @@ Healify addresses these gaps by integrating Artificial Intelligence with real-ti
 
 ## 3. Core Features
 
-### 🩺 AI Symptom Analyzer
+###  AI Symptom Analyzer
 Allows users to describe health concerns via text or voice. The system transcribes voice input (supporting various regional languages), analyzes the symptoms using an LLM, and provides potential conditions, severity levels (Low to Critical), and recommended next steps.
 
-### 💊 Smart Prescription Reader
+###  Smart Prescription Reader
 Users can upload photos of their prescriptions. The application uses Tesseract OCR and AI parsing to identify medications, dosages, and frequencies, providing a structured and readable version of the prescription data.
 
-### 📅 Advanced Appointment Booking
+###  Advanced Appointment Booking
 A dual-mode booking system featuring:
 - **Instant Doctor:** Quick access to available general practitioners.
 - **Collaborative Appointments:** Specialized requests for specific medical departments.
 - **Live Clinic Mapping:** Interactive maps using Overpass API to locate the nearest healthcare facilities.
 
-### 💰 Medicine Price Lookup & Comparison
+###  Medicine Price Lookup & Comparison
 Fetches real-time pricing from pharmacy APIs to help users find the most affordable medicine. It also identifies cheaper generic alternatives for branded medications.
 
-### 🤖 Site-Wide AI Accessibility Agent
+###  Site-Wide AI Accessibility Agent
 A persistent assistant that guides users through the platform, assists in form-filling, and provides contextual help in multiple languages.
 
 ---
