@@ -21,7 +21,7 @@ Navigating the healthcare system is often a daunting task characterized by sever
 Healify addresses these gaps by integrating Artificial Intelligence with real-time data services to provide a "single-pane-of-glass" experience for patient care.
 
 - **Intelligent Triage:** AI-driven symptom analysis to provide preliminary health insights.
-- **Automated Adherence:** OCR-based prescription reading that generates smart dosage reminders.
+- **Automated Adherence:** OCR-based prescription reading that identifies medication, dosage, and frequency.
 - **Unified Booking:** Integrated map services for locating clinics and booking instant or collaborative appointments.
 - **Market Transparency:** Real-time medicine price comparison and generic drug suggestions.
 - **Inclusive Design:** Voice-enabled, multilingual support for a truly accessible experience.
@@ -34,7 +34,7 @@ Healify addresses these gaps by integrating Artificial Intelligence with real-ti
 Allows users to describe health concerns via text or voice. The system transcribes voice input (supporting various regional languages), analyzes the symptoms using an LLM, and provides potential conditions, severity levels (Low to Critical), and recommended next steps.
 
 ### 💊 Smart Prescription Reader
-Users can upload photos of their prescriptions. The application uses Tesseract OCR and AI parsing to identify medications, dosages, and frequencies, automatically creating a structured medication schedule with browser-based reminders.
+Users can upload photos of their prescriptions. The application uses Tesseract OCR and AI parsing to identify medications, dosages, and frequencies, providing a structured and readable version of the prescription data.
 
 ### 📅 Advanced Appointment Booking
 A dual-mode booking system featuring:
@@ -65,8 +65,6 @@ graph TD
         UC2(Prescription Reading)
         UC3(Appointment Booking)
         UC4(Price Comparison)
-        UC5(Dosage Reminders)
-        UC6(Schedule Management)
     end
 
     %% Patient Interactions
@@ -74,7 +72,6 @@ graph TD
     P --- UC2
     P --- UC3
     P --- UC4
-    P --- UC5
 
     %% System Dependencies
     UC1 -.-> AI
@@ -83,10 +80,6 @@ graph TD
 
     %% Doctor Interactions
     D --- UC3
-    D --- UC6
-
-    %% Internal Relationship
-    UC2 -.-> UC5
 ```
 
 ---
