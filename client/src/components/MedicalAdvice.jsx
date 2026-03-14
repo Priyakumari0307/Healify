@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { PlusIcon, SendHorizontal, Trash2, MessageSquare, Menu, Mic, MicOff } from 'lucide-react';
+import { PlusIcon, SendHorizontal, Trash2, MessageSquare, Menu, Mic, MicOff, Image as ImageIcon } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import './MedicalAdvice.css';
@@ -16,6 +16,7 @@ const MedicalAdvice = () => {
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
     const messagesEndRef = useRef(null);
+    const fileInputRef = useRef(null);
     const location = useLocation();
 
     const API_BASE = 'http://localhost:5000/api/chat';
@@ -183,6 +184,37 @@ const MedicalAdvice = () => {
         }
     };
 
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        if (currentSessionId) {
+            formData.append('sessionId', currentSessionId);
+        }
+        if (input.trim()) {
+            formData.append('message', input);
+        }
+        formData.append('image', file);
+
+        setInput('');
+        setIsLoading(true);
+        try {
+            const res = await axios.post(`${API_BASE}/message`, formData);
+
+            if (res.data.success) {
+                setMessages(res.data.messages);
+                setCurrentSessionId(res.data.sessionId);
+                fetchSessions();
+            }
+        } catch (err) {
+            console.error("Image Upload Error:", err);
+            alert("Failed to upload and analyze image.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const deleteSession = async (e, sessionId) => {
         e.stopPropagation();
         try {
@@ -251,6 +283,11 @@ const MedicalAdvice = () => {
                     ) : (
                         messages.map((msg, index) => (
                             <div key={index} className={`message ${msg.role}`}>
+                                {msg.imageUrl && (
+                                    <div className="message-image">
+                                        <img src={`http://localhost:5000${msg.imageUrl}`} alt="Analyzed" />
+                                    </div>
+                                )}
                                 {msg.role === 'assistant' ? (
                                     <div className="markdown-content">
                                         <ReactMarkdown>{msg.content}</ReactMarkdown>
@@ -283,6 +320,20 @@ const MedicalAdvice = () => {
                         >
                             {isRecording ? <MicOff size={20} /> : <Mic size={20} />}
                         </button>
+                        <button 
+                            type="button" 
+                            className="image-upload-btn"
+                            onClick={() => fileInputRef.current.click()}
+                        >
+                            <ImageIcon size={20} />
+                        </button>
+                        <input 
+                            type="file" 
+                            ref={fileInputRef} 
+                            style={{ display: 'none' }} 
+                            accept="image/*" 
+                            onChange={handleImageUpload} 
+                        />
                         <input 
                             type="text" 
                             className="chat-input" 

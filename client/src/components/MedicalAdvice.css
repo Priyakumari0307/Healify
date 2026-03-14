@@ -273,6 +273,23 @@
     border-bottom-right-radius: 4px;
 }
 
+.message-image {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.message-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 300px;
+    object-fit: contain;
+    background: #0f172a;
+}
+
 .message.assistant {
     align-self: flex-start;
     background: #1e293b;
@@ -392,6 +409,22 @@
 
 .voice-btn:hover {
     color: #3b82f6;
+}
+
+.image-upload-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #334155;
+}
+
+.image-upload-btn:hover {
+    color: #10b981;
 }
 
 .voice-btn.recording {

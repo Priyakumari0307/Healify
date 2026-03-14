@@ -3,12 +3,40 @@ const router = express.Router();
 const { getAIResponse } = require('../services/textChatService');
 const ChatSession = require('../models/Chat');
 const { protect } = require('../middlewares/authMiddleware');
+const multer = require('multer');
+const path = require('path');
+const { analyzeMedicalImage } = require('../services/imageAnalysisService');
+
+// Multer setup for image uploads
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '../uploads'));
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }
+});
+
+const upload = multer({ 
+    storage,
+    fileFilter: (req, file, cb) => {
+        const filetypes = /jpeg|jpg|png|webp/;
+        const mimetype = filetypes.test(file.mimetype);
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        if (mimetype && extname) {
+            return cb(null, true);
+        }
+        cb(new Error("Only images are allowed (jpeg, jpg, png, webp)"));
+    },
+    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+});
 
 // @route   POST /api/chat/message
 // @desc    Send a message and get AI response, saving to a session
-router.post('/message', protect, async (req, res) => {
+router.post('/message', protect, upload.single('image'), async (req, res) => {
     try {
         const { message, sessionId, initialContext } = req.body;
+        const imagePath = req.file ? req.file.path : null;
         
         let chatSession;
         if (sessionId) {
@@ -38,7 +66,18 @@ router.post('/message', protect, async (req, res) => {
         }));
 
         let aiResponse = '';
-        if (message) {
+        if (imagePath) {
+            // If there's an image, use the vision service
+            aiResponse = await analyzeMedicalImage(imagePath, message);
+            
+            // Add user message with image and AI response
+            chatSession.messages.push({ 
+                role: 'user', 
+                content: message || "Analyzed this image.",
+                imageUrl: `/uploads/${path.basename(imagePath)}`
+            });
+            chatSession.messages.push({ role: 'assistant', content: aiResponse });
+        } else if (message) {
             aiResponse = await getAIResponse(message, history);
             // Update chat session with user message and AI response
             chatSession.messages.push({ role: 'user', content: message });
