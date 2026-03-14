@@ -27,14 +27,10 @@ const Loader = () => {
   return (
     <div className={`loader-overlay ${fading ? 'fade-out' : ''}`}>
       <div className="loader-content">
-        <div className="loader-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        <div className="loader-heartbeat">
+          <svg className="heartbeat-line-large" viewBox="0 0 100 20">
+            <path d="M0 10 L10 10 L15 2 L25 18 L30 10 L40 10 L45 2 L55 18 L60 10 L100 10" />
           </svg>
-        </div>
-        <div className="loader-brand">Healify</div>
-        <div className="loader-progress-track">
-          <div className="loader-progress-bar"></div>
         </div>
       </div>
     </div>

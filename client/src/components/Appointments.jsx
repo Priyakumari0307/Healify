@@ -44,10 +44,12 @@ const Appointments = () => {
   const [viewStep, setViewStep] = useState('collaborative'); // Default tab
   const [appointments, setAppointments] = useState([]);
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
+    fullName: 'John Smith',
+    email: 'j@mail.com',
     doctorName: 'Dr. Smith',
+    specialty: 'Cardiologist',
     date: '',
+    time: '',
     symptoms: ''
   });
   const [isSuccess, setIsSuccess] = useState(false);
@@ -208,46 +210,111 @@ const Appointments = () => {
               <p className="form-subtitle">Select a doctor and schedule an appointment.</p>
               
               <form onSubmit={handleBooking} className="collaborative-form">
-                <div className="form-group">
-                  <label>Full Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="John Doe"
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                    required
-                  />
+                <div className="profile-autofill-banner">
+                  <div className="profile-avatar">JS</div>
+                  <div className="profile-info">
+                    <strong>Booking as {formData.fullName}</strong>
+                    <span>Auto-filled from your profile</span>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input 
-                    type="email" 
-                    placeholder="john.doe@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    required
-                  />
+
+                <div className="form-group-row">
+                  <div className="form-group">
+                    <label>Full name</label>
+                    <input 
+                      type="text" 
+                      placeholder="John Smith"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input 
+                      type="email" 
+                      placeholder="j@mail.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({...formData, email: e.target.value})}
+                      required
+                    />
+                  </div>
                 </div>
+
                 <div className="form-group">
-                  <label>Preferred Doctor</label>
-                  <select 
-                    value={formData.doctorName} 
-                    onChange={(e) => setFormData({...formData, doctorName: e.target.value})}
-                  >
-                    <option value="Dr. Smith">Select a doctor (Dr. Smith)</option>
-                    <option value="Dr. Jane">Dr. Jane (Cardiologist)</option>
-                    <option value="Dr. Bob">Dr. Bob (Dermatologist)</option>
-                  </select>
+                  <label>Preferred doctor</label>
+                  <div className="doctor-cards-grid">
+                    {/* Dr. Smith */}
+                    <div 
+                      className={`doctor-card ${formData.doctorName === 'Dr. Smith' ? 'active' : ''}`}
+                      onClick={() => setFormData({...formData, doctorName: 'Dr. Smith', specialty: 'Cardiologist'})}
+                    >
+                      <div className="doctor-card-info">
+                        <strong>Dr. Smith</strong>
+                        <span>Cardiologist</span>
+                      </div>
+                      <div className="radio-circle"></div>
+                    </div>
+
+                    {/* Dr. Jane */}
+                    <div 
+                      className={`doctor-card ${formData.doctorName === 'Dr. Jane' ? 'active' : ''}`}
+                      onClick={() => setFormData({...formData, doctorName: 'Dr. Jane', specialty: 'Neurologist'})}
+                    >
+                      <div className="doctor-card-info">
+                        <strong>Dr. Jane</strong>
+                        <span>Neurologist</span>
+                      </div>
+                      <div className="radio-circle"></div>
+                    </div>
+
+                    {/* Dr. Bob */}
+                    <div 
+                      className={`doctor-card ${formData.doctorName === 'Dr. Bob' ? 'active' : ''}`}
+                      onClick={() => setFormData({...formData, doctorName: 'Dr. Bob', specialty: 'Dermatologist'})}
+                    >
+                      <div className="doctor-card-info">
+                        <strong>Dr. Bob</strong>
+                        <span>Dermatologist</span>
+                      </div>
+                      <div className="radio-circle"></div>
+                    </div>
+                  </div>
                 </div>
-                <div className="form-group">
-                  <label>Appointment Date</label>
-                  <input 
-                    type="date" 
-                    value={formData.date}
-                    onChange={(e) => setFormData({...formData, date: e.target.value})}
-                    required
-                  />
+
+                <div className="form-group-row">
+                  <div className="form-group">
+                    <label>Appointment date</label>
+                    <div className="input-with-icon">
+                      <Calendar size={18} className="input-icon" />
+                      <input 
+                        type="date" 
+                        value={formData.date}
+                        onChange={(e) => setFormData({...formData, date: e.target.value})}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Time slot</label>
+                    <div className="input-with-icon">
+                      <Clock size={18} className="input-icon" />
+                      <select 
+                        value={formData.time}
+                        onChange={(e) => setFormData({...formData, time: e.target.value})}
+                        required
+                      >
+                        <option value="" disabled>Select a time</option>
+                        <option value="09:00 AM">09:00 AM</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:30 AM">11:30 AM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
+
                 <div className="form-group">
                   <label>Problem / Symptoms</label>
                   <textarea 

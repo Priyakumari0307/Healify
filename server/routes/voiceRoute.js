@@ -6,10 +6,11 @@ const fs = require('fs');
 const { getAIResponse } = require('../services/textChatService');
 const { speechToText, textToSpeech } = require('../services/voiceService');
 const ChatSession = require('../models/Chat');
+const { protect } = require('../middlewares/authMiddleware');
 
 const upload = multer({ dest: 'uploads/' });
 
-router.post('/voice-message', upload.single('audio'), async (req, res) => {
+router.post('/voice-message', protect, upload.single('audio'), async (req, res) => {
     try {
         const audioFile = req.file;
         const { sessionId } = req.body;
@@ -37,11 +38,12 @@ router.post('/voice-message', upload.single('audio'), async (req, res) => {
         // Handle Chat Session Database
         let chatSession;
         if (sessionId) {
-            chatSession = await ChatSession.findById(sessionId);
+            chatSession = await ChatSession.findOne({ _id: sessionId, user: req.user.id });
         }
 
         if (!chatSession) {
             chatSession = new ChatSession({
+                user: req.user.id,
                 title: userText.substring(0, 30) + (userText.length > 30 ? '...' : ''),
                 messages: []
             });
@@ -66,7 +68,7 @@ router.post('/voice-message', upload.single('audio'), async (req, res) => {
 
         // Step 3: AI Text -> Voice Output (TTS Ritu)
         console.log("--- Step 3: Sarvam TTS (Ritu) ---");
-        const base64Audio = await textToSpeech(aiResponseText);
+        const base64AudioArray = await textToSpeech(aiResponseText);
 
         // Clean up the uploaded file
         fs.unlinkSync(audioFile.path);
@@ -76,7 +78,7 @@ router.post('/voice-message', upload.single('audio'), async (req, res) => {
             sessionId: chatSession._id,
             user_text: userText,
             ai_text: aiResponseText,
-            audio: base64Audio,
+            audios: base64AudioArray,
             messages: chatSession.messages,
             disclaimer: "This is AI-generated advice. Consult a doctor for medical concerns."
         });

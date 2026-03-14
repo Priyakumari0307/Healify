@@ -6,8 +6,8 @@ import './MedicinePrices.css';
 
 const getStoreLogo = (storeName) => {
   if (storeName === 'Netmeds') return '/netmeds.avif';
-  if (storeName === 'Apollo') return '/apollo.png';
-  if (storeName === 'Tata1mg' || storeName === 'Tata 1mg') return '/tata.png';
+  if (storeName.includes('Apollo')) return '/apollo.png';
+  if (storeName === 'Tata1mg' || storeName === 'Tata 1mg' || storeName.includes('1mg')) return '/tata.png';
   return null;
 };
 

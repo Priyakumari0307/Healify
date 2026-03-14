@@ -55,25 +55,35 @@
   letter-spacing: -0.5px;
 }
 
-.loader-progress-track {
-  width: 120px;
-  height: 3px;
-  background: #f1f5f9;
-  border-radius: 10px;
-  overflow: hidden;
+.loader-heartbeat {
+  width: 250px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.loader-progress-bar {
+.heartbeat-line-large {
   width: 100%;
   height: 100%;
-  background: #2563eb;
-  border-radius: 10px;
-  animation: progressRun 2s ease-in-out infinite;
-  transform-origin: left;
+  fill: none;
+  stroke: #2563eb;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: heartbeatDrawLoader 3s linear infinite;
 }
 
-@keyframes progressRun {
-  0% { transform: scaleX(0); }
-  50% { transform: scaleX(0.7); }
-  100% { transform: scaleX(1); }
+@keyframes heartbeatDrawLoader {
+  0% {
+    stroke-dashoffset: 200;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -200;
+  }
 }

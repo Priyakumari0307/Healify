@@ -105,9 +105,20 @@ const MedicalAdvice = () => {
                 fetchSessions();
 
                 // Play back AI response if audio exists
-                if (res.data.audio) {
+                if (res.data.audios && res.data.audios.length > 0) {
+                    let currentAudio = 0;
+                    const playNext = () => {
+                        if (currentAudio < res.data.audios.length) {
+                            const audio = new Audio(`data:audio/wav;base64,${res.data.audios[currentAudio]}`);
+                            audio.onended = playNext;
+                            audio.play().catch(e => console.error("Audio playback failed", e));
+                            currentAudio++;
+                        }
+                    };
+                    playNext();
+                } else if (res.data.audio) {
                     const audio = new Audio(`data:audio/wav;base64,${res.data.audio}`);
-                    audio.play();
+                    audio.play().catch(e => console.error("Audio playback failed", e));
                 }
             }
         } catch (err) {

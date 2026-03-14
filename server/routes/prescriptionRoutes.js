@@ -6,6 +6,8 @@ const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const { analyzeWithGroq } = require('../services/groqService');
 const { normalizeData, applySafetyChecks, generateMedTimeline } = require('../utils/prescriptionUtils');
+const { protect } = require('../middlewares/authMiddleware');
+const Prescription = require('../models/Prescription');
 
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
@@ -39,7 +41,7 @@ const upload = multer({
 
 // @route   POST /api/prescription
 // @desc    Upload and analyze a prescription image
-router.post('/', upload.single('file'), async (req, res) => {
+router.post('/', protect, upload.single('file'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }
@@ -56,6 +58,7 @@ router.post('/', upload.single('file'), async (req, res) => {
             rawResult = await analyzeWithGroq(savePath);
         } else {
             // Fallback or placeholder for other engines
+            if (fs.existsSync(savePath)) fs.unlinkSync(savePath);
             return res.status(400).json({ error: 'Unsupported engine' });
         }
 
@@ -75,8 +78,17 @@ router.post('/', upload.single('file'), async (req, res) => {
         // 6. Fraud Suspicion (Basic Heuristic)
         result.fraud_suspicion_flag = (result.medications || []).length > 10;
 
-        // 7. Cleanup
-        fs.unlinkSync(savePath);
+        // 7. Save to Database
+        const newHistory = new Prescription({
+            user: req.user.id,
+            originalFileName: req.file.originalname,
+            ocrData: JSON.stringify(rawResult),
+            analysis: JSON.stringify(result)
+        });
+        await newHistory.save();
+
+        // 8. Cleanup
+        if (fs.existsSync(savePath)) fs.unlinkSync(savePath);
 
         res.json(result);
 
@@ -92,6 +104,17 @@ router.post('/', upload.single('file'), async (req, res) => {
             error: 'Analysis failed',
             details: error.message
         });
+    }
+});
+
+// @route   GET /api/prescription/history
+// @desc    Get user's prescription history
+router.get('/history', protect, async (req, res) => {
+    try {
+        const history = await Prescription.find({ user: req.user.id }).sort({ createdAt: -1 });
+        res.json(history);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch prescription history" });
     }
 });
 

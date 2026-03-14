@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, 
   Stethoscope, 
@@ -16,14 +16,40 @@ import {
   Heart,
   MessageSquare,
   PlusCircle,
-  Activity
+  Activity,
+  Loader2
 } from 'lucide-react';
 import './Dashboard.css';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Dashboard');
   const navigate = useNavigate();
+  const { user, loading, logout } = useAuth();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/login');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8fafc]">
+        <Loader2 className="animate-spin text-[#2563eb]" size={40} />
+        <p className="mt-4 text-gray-600 font-medium">Loading your health dashboard...</p>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
+  const handleLogout = () => {
+    logout();
+    alert('User logged out successfully!');
+    navigate('/login');
+  };
 
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
@@ -117,10 +143,20 @@ const Dashboard = () => {
           ))}
         </nav>
 
-        <div className="sidebar-footer">
-          <div className="user-icon-circle">
-            <span className="user-initial">N</span>
+        <div className="sidebar-footer-auth">
+          <div className="user-info-badge">
+            <div className="user-avatar-small">
+              {user.name.charAt(0).toUpperCase()}
+            </div>
+            <div className="user-details-small">
+              <span className="user-name-small">{user.name}</span>
+              <span className="user-email-small">{user.email}</span>
+            </div>
           </div>
+          <button className="sidebar-logout-btn" onClick={handleLogout}>
+            <LogOut size={18} />
+            <span>Sign Out</span>
+          </button>
         </div>
       </aside>
 
@@ -143,7 +179,7 @@ const Dashboard = () => {
           {/* Welcome Banner */}
           <section className="welcome-banner">
             <div className="welcome-text">
-              <h2>Welcome to Healify!</h2>
+              <h2>Welcome to Healify, {user.name}!</h2>
               <p>Your friendly AI health assistant. Here to help you make informed health decisions.</p>
               <p className="sub-text">Select one of the options below to get started.</p>
             </div>
@@ -173,10 +209,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Floating Action Button */}
-        <button className="fab">
-          <PlusCircle size={24} color="white" />
-        </button>
+
       </main>
     </div>
   );

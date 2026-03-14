@@ -422,3 +422,206 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* NEW UI CLASSES */
+.full-width-centered {
+  grid-column: 1 / -1;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.loading-wrapper {
+  min-height: 50vh;
+}
+
+/* Interview UI */
+.interview-section {
+  width: 100%;
+}
+
+.interview-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.interview-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.interview-progress {
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background-color: #f1f5f9;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #2563eb;
+  transition: width 0.4s ease-in-out;
+}
+
+.interview-question {
+  font-size: 24px;
+  color: #0f172a;
+  line-height: 1.4;
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.ai-badge {
+  background-color: #2563eb;
+  color: white;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-btn {
+  background: white;
+  border: 2px solid #e2e8f0;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #334155;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.option-btn:hover {
+  border-color: #2563eb;
+  background-color: #f8fafc;
+  color: #2563eb;
+  transform: translateX(4px);
+}
+
+/* Collapsible Report UI */
+.report-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.report-section {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.report-section.summary-section {
+  border: 2px solid #2563eb;
+  background-color: #f8fafc;
+}
+
+.section-header {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  background-color: white;
+  color: #1e293b;
+  transition: background-color 0.2s;
+}
+
+.section-header:hover:not(.always-open) {
+  background-color: #f8fafc;
+}
+
+.section-header.always-open {
+  cursor: default;
+  background-color: #eff6ff;
+  border-bottom: 1px solid #dbeafe;
+}
+
+.header-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-title-group h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.section-icon {
+  color: #2563eb;
+}
+
+.section-body {
+  padding: 10px 24px 30px 24px;
+  border-top: 1px solid #f1f5f9;
+  background-color: white;
+}
+
+.summary-section .section-body {
+  background-color: #f8fafc;
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Fix markdown list spacing inside collapsible body */
+.section-body ul, .section-body ol {
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.section-body p {
+  margin-bottom: 16px;
+}
+
+.action-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+}
+
+.action-btn:hover {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.secondary-btn {
+  background-color: white;
+  color: #2563eb;
+}

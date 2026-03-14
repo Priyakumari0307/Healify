@@ -8,6 +8,7 @@ const chatRoutes = require('./routes/chatRoute');
 const voiceRoutes = require('./routes/voiceRoute');
 const medicineRoutes = require('./routes/medicineRoute');
 const appointmentRoutes = require('./routes/appointmentRoute');
+const authRoutes = require('./routes/authRoute');
 
 // Initialize Express
 const app = express();
@@ -26,6 +27,7 @@ app.use('/api/voice', voiceRoutes);
 app.use('/api/symptom-analysing', symptomRoutes);
 app.use('/api/medicines', medicineRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/auth', authRoutes);
 
 app.get('/', (req, res) => {
     res.send('server is running');

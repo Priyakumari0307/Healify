@@ -12,23 +12,184 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
 }
 
-.header-content {
+.header-left-side {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 }
 
-.header-content h1 {
+.header-left-side h1 {
     font-size: 1.25rem;
     font-weight: 700;
 }
 
-.reader-main {
-    max-width: 1100px;
-    margin: 0 auto;
+.header-right-side {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.history-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #475569;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.history-toggle-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #1e293b;
+}
+
+.history-toggle-btn.active {
+    background: #eff6ff;
+    border-color: #3b82f6;
+    color: #2563eb;
+}
+
+.header-divider {
+    width: 1px;
+    height: 24px;
+    background: #e2e8f0;
+}
+
+.reader-main-layout {
+    display: flex;
+    height: calc(100vh - 65px);
+    overflow: hidden;
+}
+
+.reader-content-area {
+    flex: 1;
+    overflow-y: auto;
     padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.reader-content-area.with-sidebar {
+    padding-right: 1rem;
+}
+
+.prescription-sidebar {
+    width: 350px;
+    background: white;
+    border-left: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    z-index: 40;
+    box-shadow: -4px 0 15px rgba(0,0,0,0.05);
+}
+
+.prescription-sidebar.open {
+    transform: translateX(0);
+    position: relative;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.close-sidebar {
+    background: none;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.history-item-card {
+    padding: 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.history-item-card:hover {
+    background: white;
+    border-color: #3b82f6;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.history-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.file-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.history-date {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.history-arrow {
+    color: #cbd5e1;
+}
+
+.empty-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: #94a3b8;
+    gap: 1rem;
+}
+
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .upload-card {
