@@ -4,6 +4,7 @@ import { PlusIcon, SendHorizontal, Trash2, MessageSquare, Menu, Mic, MicOff, Ima
 import { useLocation } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import './MedicalAdvice.css';
+import { API_BASE_URL } from '../config';
 
 const MedicalAdvice = () => {
     const [messages, setMessages] = useState([]);
@@ -19,8 +20,8 @@ const MedicalAdvice = () => {
     const fileInputRef = useRef(null);
     const location = useLocation();
 
-    const API_BASE = 'http://localhost:5000/api/chat';
-    const VOICE_API = 'http://localhost:5000/api/voice/voice-message';
+    const API_BASE = `${API_BASE_URL}/api/chat`;
+    const VOICE_API = `${API_BASE_URL}/api/voice/voice-message`;
 
     useEffect(() => {
         fetchSessions();
@@ -285,7 +286,7 @@ const MedicalAdvice = () => {
                             <div key={index} className={`message ${msg.role}`}>
                                 {msg.imageUrl && (
                                     <div className="message-image">
-                                        <img src={`http://localhost:5000${msg.imageUrl}`} alt="Analyzed" />
+                                        <img src={`${API_BASE_URL}${msg.imageUrl}`} alt="Analyzed" />
                                     </div>
                                 )}
                                 {msg.role === 'assistant' ? (

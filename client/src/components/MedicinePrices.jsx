@@ -3,6 +3,7 @@ import { Search, Activity, Pill, Store, ArrowLeft, Loader2 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './MedicinePrices.css';
+import { API_BASE_URL } from '../config';
 
 const getStoreLogo = (storeName) => {
   if (storeName === 'Netmeds') return '/netmeds.avif';
@@ -26,7 +27,7 @@ const MedicinePrices = () => {
     setLoading(true);
     setResults([]); // Clear previous results
     try {
-      const res = await axios.get(`http://localhost:5000/api/medicines/search?q=${query}`);
+      const res = await axios.get(`${API_BASE_URL}/api/medicines/search?q=${query}`);
       setMedicineName(res.data.medicine || query);
       setResults(res.data.results || []);
       setCheapest(res.data.cheapest || null);

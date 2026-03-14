@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './PrescriptionReader.css';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 
 const PrescriptionReader = () => {
   const [file, setFile] = useState(null);
@@ -21,7 +22,7 @@ const PrescriptionReader = () => {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/prescription/history');
+      const res = await axios.get(`${API_BASE_URL}/api/prescription/history`);
       setHistory(res.data);
     } catch (err) {
       console.error("Failed to fetch history:", err);
@@ -45,7 +46,7 @@ const PrescriptionReader = () => {
     formData.append('file', file);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/prescription', formData);
+      const res = await axios.post(`${API_BASE_URL}/api/prescription`, formData);
       setResult(res.data);
       fetchHistory(); // Refresh history after new scan
     } catch (err) {

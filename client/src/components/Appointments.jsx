@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import './Appointments.css';
+import { API_BASE_URL } from '../config';
 
 // Fix Leaflet marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -69,7 +70,7 @@ const Appointments = () => {
 
   const fetchAppointments = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/appointments');
+      const res = await axios.get(`${API_BASE_URL}/api/appointments`);
       setAppointments(res.data);
     } catch (err) {
       console.error("Fetch error:", err);
@@ -112,7 +113,7 @@ const Appointments = () => {
   const handleBooking = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/appointments', {
+      await axios.post(`${API_BASE_URL}/api/appointments`, {
          doctorName: formData.doctorName,
          specialization: 'General Physician',
          date: formData.date,

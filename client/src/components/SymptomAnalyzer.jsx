@@ -20,6 +20,7 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import './SymptomAnalyzer.css';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const parseAnalysisResult = (markdown) => {
   const sections = [];
@@ -124,7 +125,7 @@ const SymptomAnalyzer = () => {
     setResult(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/symptom-analysing/questions', { symptoms });
+      const response = await axios.post(`${API_BASE_URL}/api/symptom-analysing/questions`, { symptoms });
       if (response.data.questions && response.data.questions.length > 0) {
         setQuestions(response.data.questions);
         setCurrentQuestionIdx(0);
@@ -156,7 +157,7 @@ const SymptomAnalyzer = () => {
   const submitFinalAnalysis = async (answers) => {
     setPhase('analyzing');
     try {
-      const response = await axios.post('http://localhost:5000/api/symptom-analysing', {
+      const response = await axios.post(`${API_BASE_URL}/api/symptom-analysing`, {
         symptoms,
         interviewAnswers: answers
       });
