@@ -53,35 +53,40 @@ A persistent assistant that guides users through the platform, assists in form-f
 ## 4. Use Case Diagram
 
 ```mermaid
-usecaseDiagram
-    actor "Patient" as P
-    actor "Doctor" as D
-    actor "Pharmacy API" as Ph
-    actor "AI Engine" as AI
+graph TD
+    %% Actors
+    P[Patient]
+    D[Doctor]
+    Ph[Pharmacy API]
+    AI[AI Engine]
 
-    package "Healify System" {
-        usecase "Symptom Analysis" as UC1
-        usecase "Prescription Reading" as UC2
-        usecase "Appointment Booking" as UC3
-        usecase "Price Comparison" as UC4
-        usecase "Dosage Reminders" as UC5
-        usecase "Manage Schedule" as UC6
-    }
+    subgraph "Healify System"
+        UC1(Symptom Analysis)
+        UC2(Prescription Reading)
+        UC3(Appointment Booking)
+        UC4(Price Comparison)
+        UC5(Dosage Reminders)
+        UC6(Schedule Management)
+    end
 
-    P --> UC1
-    P --> UC2
-    P --> UC3
-    P --> UC4
-    P --> UC5
-    
-    UC1 ..> AI : <<include>>
-    UC2 ..> AI : <<include>>
-    UC4 ..> Ph : <<include>>
-    
-    D --> UC3 : "Manage Slots"
-    D --> UC6 : "View History"
-    
-    UC2 -- UC5 : "Generates"
+    %% Patient Interactions
+    P --- UC1
+    P --- UC2
+    P --- UC3
+    P --- UC4
+    P --- UC5
+
+    %% System Dependencies
+    UC1 -.-> AI
+    UC2 -.-> AI
+    UC4 -.-> Ph
+
+    %% Doctor Interactions
+    D --- UC3
+    D --- UC6
+
+    %% Internal Relationship
+    UC2 -.-> UC5
 ```
 
 ---
