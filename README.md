@@ -118,7 +118,25 @@ Designing a severity assessment that accurately flags high-risk symptoms (like c
 
 ---
 
-## 7. Development Team
+## 7. Deployment
+
+The application is deployed across two platforms. **Always wake up the backend first** before accessing the frontend, as the backend may be in a dormant state on Render's free tier.
+
+### Step 1 — Start the Backend (Render)
+
+Open the link below in your browser and wait until the server responds (this may take up to 60 seconds on first load):
+
+🔗 **Backend (Render):** [https://healify-backend-hjmb.onrender.com/](https://healify-backend-hjmb.onrender.com/)
+
+### Step 2 — Open the Frontend (Vercel)
+
+Once the backend is live, navigate to the frontend application:
+
+🔗 **Frontend (Vercel):** [https://healify-omega.vercel.app/](https://healify-omega.vercel.app/)
+
+---
+
+## 8. Development Team
 
 - **Anindya Ganguly**
 - **Arijeet Banerjee**
